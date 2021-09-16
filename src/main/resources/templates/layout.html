@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<!--list.html ⻚⾯已经引⼊了 layout.html ⻚⾯中的代码⽚段，
+list.html ⻚⾯中传⼊的 title 和 content已经成功地插⼊到了 layout.html ⻚⾯的代码⽚段中
+方向：layout插入到list，并且list中的参数替换对应layout-->
+<!--th:fragment 属性来定义被包含的模版⽚段，以供其他模版包含；
+Thymeleaf 3.0 之后不再推荐使⽤ th:include
+th:insert：将被引用的模板片段插⼊到自己的标签体中
+th:replace：将被引用的模板片段替换掉自己
+th:include：类似于 th:insert，⽽不是插⼊⽚段，它只插⼊此⽚段的内容-->
+<html lang="zh" xmlns:th="http://www.thymeleaf.org"  th:fragment="common_layout(title,content)">
+<head>
+    <meta charset="UTF-8"></meta>
+    <title th:replace="${title}">comm title</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}"></link>
+    <link rel="stylesheet" th:href="@{/css/main.css}"></link>
+</head>
+<body>
+    <div class="container">
+        <th:block th:replace="${content}" />
+        <th:block th:insert="layout/footer :: footer" ></th:block>
+    </div>
+</body>
+</html>

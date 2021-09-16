@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hzy.mapper.UserMapper">
+    <!--常见数据类型别名不区分大小写，注意重复定义覆盖问题,基本数据类型用_,其余一般类名首字母小写-->
+    <!--公⽤的⼀些 sql语句 ⽚段可以提取出来，在其他 SQL 中去引⽤，复用模板，减少冗余-->
+    <sql id="Base_Column_List">
+        id,userName,userType,password,email,age,regTime,state
+    </sql>
+    <sql id="selectUserListWhere">
+        <where>
+            <if test="userName!=null">
+                userName like "%"#{userName}"%"
+            </if>
+            <if test="userType!=null" >
+                and userType=#{userType}
+            </if>
+        </where>
+    </sql>
+    <!--查询总记录数-->
+    <!--<select id="getTotalCount" resultType="int">
+        select count(*) from user_manage
+    </select>-->
+    <!--根据分页查询用户列表-->
+    <!--<select id="findAll" resultType="user" parameterType="com.hzy.param.PageParam">
+        select
+        <include refid="Base_Column_List"/>
+        from user_manage
+        order by id desc
+        limit #{beginLine},#{pageSize}
+    </select>-->
+
+    <!--分页查询符合条件的列表,当然包括无条件时查询列表所有元素-->
+    <select id="findByLikeNameAndUserType" resultType="user" parameterType="map">
+        select
+        <include refid="Base_Column_List"/>
+        from user_manage
+        <include refid="selectUserListWhere"/>
+        order by id desc
+        limit #{beginLine},#{pageSize}
+    </select>
+    <!--查询符合条件的总记录数-->
+    <select id="getTotalCountCondition" resultType="int">
+        select count(*) from user_manage
+        <include refid="selectUserListWhere"/>
+    </select>
+    <!--根据id查询用户-->
+    <select id="findById" resultType="user" parameterType="long">
+        select
+        <include refid="Base_Column_List"/>
+        from user_manage
+        where id=#{id}
+    </select>
+    <select id="findByUserName" resultType="user">
+        select
+        <include refid="Base_Column_List"/>
+        from user_manage
+        where userName=#{userName}
+    </select>
+    <select id="findByEmail" resultType="user">
+        select
+        <include refid="Base_Column_List"/>
+        from user_manage
+        where email=#{email}
+    </select>
+    <select id="findByUserNameOrEmail" resultType="user">
+        select
+        <include refid="Base_Column_List"/>
+        from
+        user_manage
+        where userName=#{userName} or email=#{email}
+    </select>
+    <select id="findUserTypes" resultType="java.lang.String">
+        select distinct userType
+        FROM user_manage
+        order by userType;
+    </select>
+
+    <!--插入的是User对象-->
+    <insert id="insertUser" parameterType="user">
+        insert into
+        user_manage
+       		(userName,userType,password,email,age,regTime,state)
+       	values
+       		(#{userName},#{userType},#{password},#{email},#{age},#{regTime},#{state})
+    </insert>
+    <!--更新的也是User对象，根据多种条件组合只需修改指定的字段-->
+    <update id="updateUser" parameterType="user">
+        update
+        user_manage
+        <set>
+            <if test="userName!=null">userName=#{userName},</if>
+            <if test="password!=null">password=#{password},</if>
+            <if test="email!=null">email=#{email},</if>
+            <if test="age!=null">age=#{age},</if>
+            <if test="userType!=null">userType=#{userType},</if>
+            <if test="regTime!=null">regTime=#{regTime},</if>
+            <if test="state!=null">state=#{state},</if>
+        </set>
+        where
+        id=#{id}
+    </update>
+    <!--根据id删除对象-->
+    <delete id="deleteById" parameterType="long" >
+        delete from
+        user_manage
+        where
+       	id=#{id}
+    </delete>
+
+</mapper>

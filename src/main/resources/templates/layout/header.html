@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8"></meta>
+        <title>Header</title>
+    </head>
+    <body>
+        <header th:fragment="header">
+            <div style="float: right;margin-top: 30px">
+                <div style="font-size: x-large">欢迎您登录，
+                    <text th:text="${session.LOGIN_SESSION_USER.getUserName()}"></text>
+                    !
+                    <a href="/loginOut" th:href="@{/loginOut}" onclick="return confirm('你确定要退出吗？')" style="font-size: medium">退出
+                    </a>
+                </div>
+                <div th:if="${session.LOGIN_SESSION_USER.getState()=='unverified'}" style="color: red;">
+                    请尽快验证您的注册邮件，以确保安全!
+                </div>
+            </div>
+        </header>
+    </body>
+</html>

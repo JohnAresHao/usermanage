@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}"/>
+    <script th:inline="javascript" type="text/javascript">
+        function refreshCode(){
+            document.getElementById("code").src = "validateCode?" + Math.random();
+        }
+    </script>
+</head>
+<body class="container">
+    <br/>
+    <h1>用户登录</h1>
+    <br/><br/>
+    <div class="with:60%">
+        <div style="margin: 10px 90px;">没有账户？先去<a th:href="@{/toRegister}">注册</a></div>
+        <form class="form-horizontal" th:action="@{/login}" method="post">
+            <div class="form-group">
+                <label for="loginName" class="col-sm-2 control-label">用户名</label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" name="loginName"  id="loginName" placeholder="请输入用户名"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <!--一个全角空格-->
+                <label for="password" class="col-sm-2 control-label" >密&emsp;码</label>
+                <div class="col-sm-6">
+                    <input type="password" class="form-control" name="password" id="password" placeholder="输入密码"/>
+                </div>
+            </div>
+            <!--validate code generate-->
+            <!--<div class="form-group">`
+                <label for="code" class="col-sm-2 control-label">验证码</label>
+                <div class="col-sm-2">
+                    <input type="text" class="form-control" name="code" placeholder="输入验证码"/></td>
+                </div>
+                <div>
+                    <img id="code" src="validateCode" th:src="@{validateCode}"/>
+                    <a href="/validateCode" th:href="@{/validateCode}"><font color="blue">看不清，换一个！</font></a>
+                </div>
+            </div>-->
+
+            <div class="form-group">
+                <label   class="col-sm-2 control-label"></label>
+                <div class="col-sm-6">
+                    <div th:if="${errorMsg != null}"  class="alert alert-danger" role="alert" th:text="${errorMsg}">
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-6">
+                    <input type="submit" value="登录" class="btn btn-info" />
+                </div>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" th:replace="layout::common_layout(~{::title},~{::content})">
+<head>
+    <meta charset="UTF-8">
+    <title>Modify</title>
+</head>
+<body>
+    <content>
+        <div>
+            <br/>
+            <h1>修改用户</h1>
+            <br/><br/>
+            <div class="with:80%">
+                <!--th:object替换对象-->
+                <form class="form-horizontal" th:action="@{/edit}" th:object="${user}" method="post">
+                    <!--选择表达式很像变量表达式，不过它们⽤⼀个预先选择的对象来代替上下⽂变量容器，类似：*{customer.name}-->
+                    <input type="hidden" name="id" th:value="*{id}"/>
+                    <div class="form-group">
+                        <label for="userName" class="col-sm-2 control-label">用户名</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="userName" id="userName" th:value="*{userName}" placeholder="请输入用户名"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="email" class="col-sm-2 control-label">邮箱</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="email" id="email" th:value="*{email}" placeholder="请输入邮箱"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="password" class="col-sm-2 control-label">密码</label>
+                        <div class="col-sm-10">
+                            <input type="password" class="form-control" name="password" id="password" th:value="*{password}" placeholder="请输入密码"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="age" class="col-sm-2 control-label">年龄</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="age" id="age" th:value="*{age}" placeholder="请输入年龄"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2"></label>
+                        <div class="col-sm-10">
+                            <div th:if="${errorMsg!=null}" class="alert alert-danger" role="alert" th:text="${errorMsg}"></div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <input type="submit" value="提交" class="btn btn-info" />
+                            &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;
+                            <a href="/toAdd" th:href="@{/list}" class="btn btn-info">后退</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </content>
+</body>
+</html>
